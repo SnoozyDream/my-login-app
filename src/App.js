@@ -1,13 +1,23 @@
 import React from 'react';
-import LoginForm from './components/LoginForm'; // ← 相対パス注意！
+import { BrowserRouter, Routes,Route } from 'react-router-dom';
+
+import LoginPage from './pages/LoginPage';
+import Dashboard from './pages/Dashboard';
+import RegisterPage from './pages/RegisterPage';
 
 function App() {
   return (
-    <div style={{ padding: '2rem' }}>
-      <h1>My ログインアプリ</h1>
-      <LoginForm /> {/* ← 呼び出すだけ！ */}
-    </div>
+    <BrowserRouter> 
+    <Routes>
+      <Route path="/" element={<LoginPage />} /> {/*＜====ちゃんと"/"に当たるページを指定してあげる*/}
+      <Route path="/loginPage" element={<LoginPage />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/register" element={<RegisterPage />} />
+    
+    </Routes>
+    </BrowserRouter>
   );
+  
 }
 
 export default App;
