@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
-function RegisterPage() {
+function RegisterPage({ studyLogs, setStudyLogs }) {
   const [title,setTitle] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
@@ -10,10 +11,14 @@ function RegisterPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // 仮の処理（あとで状態管理 or DBに送るようにする）
-    console.log("記録:", { title, date, time });
+    const newLog = {
+      id: uuidv4(),
+      title,
+      date,
+      time: Number(time),
+    }
 
-    //登録後にダッシュボードへ戻る
+    setStudyLogs((prevLogs) => [...prevLogs, newLog]);
     navigate('/dashboard');
   };
 
@@ -45,13 +50,20 @@ function RegisterPage() {
           type="number"
           value={time}
           onChange={(e) => setTime(e.target.value)}
+          onKeyDown={(e) => {
+           if (["e", "E", "+", "-"].includes(e.key)) {
+            e.preventDefault();
+           }
+          }}
           required
           />
         </div>
         <br />
-        <button onClick={handleSubmit}>記録する</button>
+        <button onClick={handleSubmit} >記録する</button>
+        
       </form>
     </div>
+    
   );
 }
 
